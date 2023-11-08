@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>SpringBoot 循环依赖 | 狂想地</title>
+    <meta name="generator" content="VuePress 1.9.9">
+    <link rel="icon" href="01.png">
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?8ca2d06ec3457bf39838bbdb9ebf3f6b";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+        </script>
+    <meta name="description" content="自建博客">
+    
+    <link rel="preload" href="/assets/css/0.styles.9b32a9ce.css" as="style"><link rel="preload" href="/assets/js/app.971e7be9.js" as="script"><link rel="preload" href="/assets/js/2.f0b7de72.js" as="script"><link rel="preload" href="/assets/js/56.74a15729.js" as="script"><link rel="prefetch" href="/assets/js/10.0b6d69c5.js"><link rel="prefetch" href="/assets/js/11.f0e3c64f.js"><link rel="prefetch" href="/assets/js/12.4ec076f9.js"><link rel="prefetch" href="/assets/js/13.7c4dcd47.js"><link rel="prefetch" href="/assets/js/14.e96dc414.js"><link rel="prefetch" href="/assets/js/15.2f47a566.js"><link rel="prefetch" href="/assets/js/16.f1abad64.js"><link rel="prefetch" href="/assets/js/17.ccaa471c.js"><link rel="prefetch" href="/assets/js/18.5ef8afcf.js"><link rel="prefetch" href="/assets/js/19.51d08335.js"><link rel="prefetch" href="/assets/js/20.b7e94ca0.js"><link rel="prefetch" href="/assets/js/21.9a6eb457.js"><link rel="prefetch" href="/assets/js/22.b7875db2.js"><link rel="prefetch" href="/assets/js/23.4f69263c.js"><link rel="prefetch" href="/assets/js/24.7c2cbd29.js"><link rel="prefetch" href="/assets/js/25.088a3f85.js"><link rel="prefetch" href="/assets/js/26.ee51a5c6.js"><link rel="prefetch" href="/assets/js/27.77493a0b.js"><link rel="prefetch" href="/assets/js/28.c034713c.js"><link rel="prefetch" href="/assets/js/29.4b3cc903.js"><link rel="prefetch" href="/assets/js/3.92ee9c9d.js"><link rel="prefetch" href="/assets/js/30.41290193.js"><link rel="prefetch" href="/assets/js/31.ca5c59ca.js"><link rel="prefetch" href="/assets/js/32.fd2a9adc.js"><link rel="prefetch" href="/assets/js/33.52809af8.js"><link rel="prefetch" href="/assets/js/34.d32a6968.js"><link rel="prefetch" href="/assets/js/35.c7a54b7b.js"><link rel="prefetch" href="/assets/js/36.9b0779cc.js"><link rel="prefetch" href="/assets/js/37.e6c0580f.js"><link rel="prefetch" href="/assets/js/38.b90b50ba.js"><link rel="prefetch" href="/assets/js/39.27276226.js"><link rel="prefetch" href="/assets/js/4.1d89f541.js"><link rel="prefetch" href="/assets/js/40.fcd7455f.js"><link rel="prefetch" href="/assets/js/41.84e7a5f6.js"><link rel="prefetch" href="/assets/js/42.ab024f77.js"><link rel="prefetch" href="/assets/js/43.3b5493f4.js"><link rel="prefetch" href="/assets/js/44.6a4f3009.js"><link rel="prefetch" href="/assets/js/45.67b8de99.js"><link rel="prefetch" href="/assets/js/46.419ac801.js"><link rel="prefetch" href="/assets/js/47.2fd34d93.js"><link rel="prefetch" href="/assets/js/48.2074ef58.js"><link rel="prefetch" href="/assets/js/49.ddb24d57.js"><link rel="prefetch" href="/assets/js/5.311aac1c.js"><link rel="prefetch" href="/assets/js/50.23863a5f.js"><link rel="prefetch" href="/assets/js/51.78f63de6.js"><link rel="prefetch" href="/assets/js/52.c69e373b.js"><link rel="prefetch" href="/assets/js/53.89ee296c.js"><link rel="prefetch" href="/assets/js/54.80809159.js"><link rel="prefetch" href="/assets/js/55.4b11e6ea.js"><link rel="prefetch" href="/assets/js/6.19988b39.js"><link rel="prefetch" href="/assets/js/7.055bfc60.js"><link rel="prefetch" href="/assets/js/8.6ec347d2.js"><link rel="prefetch" href="/assets/js/9.918fc9ee.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.9b32a9ce.css">
+  </head>
+  <body class="theme-mode-light">
+    <div id="app" data-server-rendered="true"><div class="theme-container sidebar-open have-rightmenu have-body-img"><header class="navbar blur"><div title="目录" class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="./img/fi.jpg" alt="狂想地" class="logo"> <span class="site-name can-hide">狂想地</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">首页</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="后端" class="dropdown-title"><a href="/backend/" class="link-title">后端</a> <span class="title" style="display:none;">后端</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>语言学习笔记</h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/note/java/" class="nav-link">《Java自学笔记》</a></li><li class="dropdown-subitem"><a href="/note/rust/" class="nav-link">《Rust自学笔记》</a></li></ul></li><li class="dropdown-item"><h4>框架学习笔记</h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/note/mybatis/" class="nav-link">《Mybatis》</a></li><li class="dropdown-subitem"><a href="/note/spring/" class="nav-link">《Spring》</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="技术" class="dropdown-title"><a href="/technology/" class="link-title">技术</a> <span class="title" style="display:none;">技术</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/7bea94/404" class="nav-link">技术文档</a></li><li class="dropdown-item"><!----> <a href="/pages/7bea94/404" class="nav-link">博客搭建</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="数据库" class="dropdown-title"><a href="/database/" class="link-title">数据库</a> <span class="title" style="display:none;">数据库</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/e7ada5/" class="nav-link">Mysql</a></li><li class="dropdown-item"><!----> <a href="/pages/5a3d2d/" class="nav-link">ElasticSearch</a></li></ul></div></div><div class="nav-item"><a href="/pages/1a935d/" class="nav-link">网络</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="中间件" class="dropdown-title"><a href="/middleware/" class="link-title">中间件</a> <span class="title" style="display:none;">中间件</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/0f17e6/" class="nav-link">消息队列</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="项目" class="dropdown-title"><a href="/project/" class="link-title">项目</a> <span class="title" style="display:none;">项目</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/a1902d/" class="nav-link">谷粒商城</a></li></ul></div></div><div class="nav-item"><a href="/about/" class="nav-link">关于</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="收藏" class="dropdown-title"><!----> <span class="title" style="display:;">收藏</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/beb6c0bd8a66cea6/" class="nav-link">网站</a></li><li class="dropdown-item"><!----> <a href="/pages/b6216e/" class="nav-link">文章</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="索引" class="dropdown-title"><a href="/archives/" class="link-title">索引</a> <span class="title" style="display:none;">索引</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/" class="nav-link">分类</a></li><li class="dropdown-item"><!----> <a href="/tags/" class="nav-link">标签</a></li><li class="dropdown-item"><!----> <a href="/archives/" class="nav-link">归档</a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar-hover-trigger"></div> <aside class="sidebar" style="display:none;"><!----> <nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">首页</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="后端" class="dropdown-title"><a href="/backend/" class="link-title">后端</a> <span class="title" style="display:none;">后端</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>语言学习笔记</h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/note/java/" class="nav-link">《Java自学笔记》</a></li><li class="dropdown-subitem"><a href="/note/rust/" class="nav-link">《Rust自学笔记》</a></li></ul></li><li class="dropdown-item"><h4>框架学习笔记</h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/note/mybatis/" class="nav-link">《Mybatis》</a></li><li class="dropdown-subitem"><a href="/note/spring/" class="nav-link">《Spring》</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="技术" class="dropdown-title"><a href="/technology/" class="link-title">技术</a> <span class="title" style="display:none;">技术</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/7bea94/404" class="nav-link">技术文档</a></li><li class="dropdown-item"><!----> <a href="/pages/7bea94/404" class="nav-link">博客搭建</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="数据库" class="dropdown-title"><a href="/database/" class="link-title">数据库</a> <span class="title" style="display:none;">数据库</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/e7ada5/" class="nav-link">Mysql</a></li><li class="dropdown-item"><!----> <a href="/pages/5a3d2d/" class="nav-link">ElasticSearch</a></li></ul></div></div><div class="nav-item"><a href="/pages/1a935d/" class="nav-link">网络</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="中间件" class="dropdown-title"><a href="/middleware/" class="link-title">中间件</a> <span class="title" style="display:none;">中间件</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/0f17e6/" class="nav-link">消息队列</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="项目" class="dropdown-title"><a href="/project/" class="link-title">项目</a> <span class="title" style="display:none;">项目</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/a1902d/" class="nav-link">谷粒商城</a></li></ul></div></div><div class="nav-item"><a href="/about/" class="nav-link">关于</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="收藏" class="dropdown-title"><!----> <span class="title" style="display:;">收藏</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/beb6c0bd8a66cea6/" class="nav-link">网站</a></li><li class="dropdown-item"><!----> <a href="/pages/b6216e/" class="nav-link">文章</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="索引" class="dropdown-title"><a href="/archives/" class="link-title">索引</a> <span class="title" style="display:none;">索引</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/" class="nav-link">分类</a></li><li class="dropdown-item"><!----> <a href="/tags/" class="nav-link">标签</a></li><li class="dropdown-item"><!----> <a href="/archives/" class="nav-link">归档</a></li></ul></div></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/pages/96a6ab/" class="sidebar-link">读取 Springboot 的配置</a></li><li><a href="/pages/7bea94/" aria-current="page" class="active sidebar-link">SpringBoot 循环依赖</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header level2"><a href="/pages/7bea94/#什么是循环依赖" class="sidebar-link">什么是循环依赖？</a></li><li class="sidebar-sub-header level2"><a href="/pages/7bea94/#问题及症状" class="sidebar-link">问题及症状</a></li><li class="sidebar-sub-header level2"><a href="/pages/7bea94/#延迟注入的案例" class="sidebar-link">延迟注入的案例</a></li><li class="sidebar-sub-header level2"><a href="/pages/7bea94/#接口隔离的案例" class="sidebar-link">接口隔离的案例</a></li></ul></li></ul> </aside> <div><main class="page"><div class="theme-vdoing-wrapper "><div class="articleInfo-wrap" data-v-06225672><div class="articleInfo" data-v-06225672><ul class="breadcrumbs" data-v-06225672><li data-v-06225672><a href="/" title="首页" class="iconfont icon-home router-link-active" data-v-06225672></a></li> <li data-v-06225672><a href="/note/spring/#《Spring》" data-v-06225672>《Spring》</a></li></ul> <div class="info" data-v-06225672><!----> <div title="创建时间" class="date iconfont icon-riqi" data-v-06225672><a href="javascript:;" data-v-06225672>2023-11-08</a></div> <!----></div></div></div> <!----> <div class="content-wrapper"><div class="right-menu-wrapper"><div class="right-menu-margin"><div class="right-menu-title">目录</div> <div class="right-menu-content"></div></div></div> <h1><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAABH1JREFUSA3tVl1oHFUUPmdmd2ltklqbpJDiNnXFmgbFktho7YMPNiJSSZM0+CAYSkUELVhM6YuwIPpgoOKDqOBDC0XE2CQoNtQXBUFTTcCi+Wlh1V2TQExsUzcltd3M9Tt3ZjZzZ2fT+OJTL8yeM+eee757fmeJbq//KQL8X3DUSFOcfr7cRsRtxNQMWueeVzOkaITIGqQHNg5y8+jNW9ldM7A6nTpAjuolUikAwq7CE3WcM2RRDz+XGVgN3FptU/aUSlvq9Pa3iZ1+sgAqJyyAFqkipd9dqiwHF3P65YycLWc/6sqGrvoEoIp6DOFaX5h6+dnfjkWprwqsPk0dUGq5vySwDImC10KxFHgGL1SWoc92O3eVht09qdXNH11I2SsTsJYqMWzihqGMi+A+Garf3BAuuLI5oGlULyNfyB/HYNujwktOfRrMr5t77NmevqaUopx0grnKAyvVpmwUDB4x6FPXuGvYLTDwWsejwgtgkYKPqRJg8SV6xaiZ3ZTppGneS4yfH5/66fZSDHv+QZci/+h5c5UHtpy67JUqGppM0sh0Nc1dW6/N1W5Yoqat8/TU/VnadmdeW2PLLSyh0cvxBs3KbqTmwYPpxN4do/mzE8nEpvX/UMu2Wbp74zUAK5q6WkHns7V0eWkdPbPzd3rxkTGybadYySumVzhcaJFbs5UrEkQ/+CK8gF5dnh/6ciIZ73gwQ927L1IitoxKLXYP3SjYdOrHHfTZhRRlFyrorafPk20B3HPD1y2G3qKZME5Jcf3t/HUC13/8tSd++vqFveMUTwAUxSUFI1QekR1+bIze3D9MF2aq6cPvG72CgnldWCFqyRw3lwH8ZMerjTD9ElRO7Gv44wNpC90aASqGfVlz/Rx17srQ57/UU26hkhQqUB7dBR71WmzQhHUnblGmVOEw0jhbV1n9OlXUDCIRGaNV5Jp43N516fN7JmnTHdfp7Hgy0luO4aMhtkLL8Bi3bUWYvzh5Mn1dTxrL6QmGuRhGL/TiTTxRoEdTszSaq9GR0NGA3KdkOz3hqSV3MIDhQ5IVX/Ivx3umBti2es2h4eZby7x8br1rkf7Mo90AqC8aQ3sJeNzqFRu+vSANAQe3PL7l0HGOAdwDCeZYvNKeoZp1Qfs6Aipndh86HmFRi0LAnEO47wsqM6cdfjh3jBPUzhZy7nvlUfFsamED1VQt6aISHVymXZ/B2aCtIG8AI8xfobj2d3en1wWVhOeHELKmLQ1s211s88comkv4UCwWyF787mJdYXtNfhKAXVqnKTq8QZvGAGGOfaTo5pGZ/PwbUCr5+DPr/1J92JNHr9aOl/F3iI5+O1nfybsGxoimvZ3ViWSluDITw3P37mypheDIPY0tw7+O/5ApbkYw+zpfaUVu32Pi98+defdUhEpZkRFq0aqyNh9FuL9hpYbEm6iwi0z2REd09ZmyENEbuhjDWzKvZXTqKYaBIr3tt5kuPtQBZFvEUwHt60vfCNu41XsksH9Ij1BMMz1Y0OOunHNShFIP5868g5zeXmuLwL9T4b6Q2+KejgAAAABJRU5ErkJggg==">SpringBoot 循环依赖<!----></h1> <!----> <div class="theme-vdoing-content content__default"><h2 id="什么是循环依赖"><a href="#什么是循环依赖" class="header-anchor">#</a> 什么是循环依赖？</h2> <p>循环依赖是指在Spring Boot 应用程序中，两个或多个类之间存在彼此依赖的情况，形成一个循环依赖链。</p> <p>在这种情况下，当一个类在初始化时需要另一个类的实例，而另一个类又需要第一个类的实例时，就会出现循环依赖问题。这会导致应用程序无法正确地初始化和运行，因为Spring Boot 无法处理这种循环依赖关系。</p> <h2 id="问题及症状"><a href="#问题及症状" class="header-anchor">#</a> 问题及症状</h2> <p>在2.6.0之前，Spring Boot会自动处理循环依赖的问题。2.6.0及之后的版本会默认检查循环依赖，存在该问题则会报错。</p> <p>ComponentA类注入ComponentB类，ComponentB类注入ComponentA类，就会发生循环依赖的问题。</p> <p>ComponentA</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">import</span> <span class="token import"><span class="token namespace">org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>stereotype<span class="token punctuation">.</span></span><span class="token class-name">Service</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">javax<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span></span><span class="token class-name">Resource</span></span><span class="token punctuation">;</span>
+ 
+<span class="token annotation punctuation">@Service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ComponentA</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Resource</span>
+    <span class="token keyword">private</span> <span class="token class-name">ComponentB</span> componentB<span class="token punctuation">;</span>
+ 
+<span class="token punctuation">}</span>
+</code></pre></div><p>ComponentB</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">import</span> <span class="token import"><span class="token namespace">org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>stereotype<span class="token punctuation">.</span></span><span class="token class-name">Service</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">javax<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span></span><span class="token class-name">Resource</span></span><span class="token punctuation">;</span>
+ 
+<span class="token annotation punctuation">@Service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ComponentB</span> <span class="token punctuation">{</span>
+ 
+    <span class="token annotation punctuation">@Resource</span>
+    <span class="token keyword">private</span> <span class="token class-name">ComponentA</span> componentA<span class="token punctuation">;</span>
+ 
+<span class="token punctuation">}</span>
+</code></pre></div><p>现在，2.6.0 这个版本已经默认禁止 Bean 之间的循环引用, 则基于上面的代码，会报错：</p> <div class="language- extra-class"><pre class="language-text"><code>
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The dependencies of some of the beans in the application context form a cycle:
+
+┌─────┐
+|  componentA
+↑     ↓
+|  componentB
+└─────┘
+
+
+Action:
+
+Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+</code></pre></div><h3 id="解决方法"><a href="#解决方法" class="header-anchor">#</a> 解决方法：</h3> <p>循环依赖是指两个或更多的组件之间存在着互相依赖的关系。在Spring Boot应用程序中，循环依赖通常是由以下几种情况引起的：</p> <ul><li>构造函数循环依赖： 两个或更多的组件在它们的构造函数中互相依赖。</li> <li>属性循环依赖： 两个或更多的组件在它们的属性中互相依赖。</li> <li>方法循环依赖： 两个或更多的组件在它们的方法中互相依赖。</li></ul> <p>Spring Boot提供了一些解决循环依赖的方法：</p> <ul><li>构造函数注入： 在构造函数中注入依赖项，而不是在属性中注入。</li> <li>Setter注入： 使用setter方法注入依赖项，而不是在构造函数中注入。</li> <li>延迟注入： 使用@Lazy注解延迟加载依赖项。
+@Autowired注解的required属性： 将required属性设置为false，以避免出现循环依赖问题。
+@DependsOn注解： 使用@DependsOn注解指定依赖项的加载顺序，以避免出现循环依赖问题
+构造器注入的案例
+假设有以下两个类:</li></ul> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">A</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token class-name">B</span> b<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">A</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// ...</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setB</span><span class="token punctuation">(</span><span class="token class-name">B</span> b<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>b <span class="token operator">=</span> b<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">B</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token class-name">A</span> a<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">B</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// ...</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setA</span><span class="token punctuation">(</span><span class="token class-name">A</span> a<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>a <span class="token operator">=</span> a<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>通过构造函数注入可以避免循环依赖，改造后的代码如下:</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">A</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token class-name">B</span> b<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">A</span><span class="token punctuation">(</span><span class="token class-name">B</span> b<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>b <span class="token operator">=</span> b<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">B</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token class-name">A</span> a<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">B</span><span class="token punctuation">(</span><span class="token class-name">A</span> a<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>a <span class="token operator">=</span> a<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>这样，在创建 A 实例时，只需要将 B 实例传递给 A 的构造函数即可，不需要再通过 setter 方法将 B 实例注入到 A 中。同理，在创建 B 实例时，只需要将 A 实例传递给 B 的构造函数即可，不需要再通过 setter 方法将 A 实例注入到 B 中。这样可以避免循环依赖。</p> <h2 id="延迟注入的案例"><a href="#延迟注入的案例" class="header-anchor">#</a> 延迟注入的案例</h2> <p>假设有如下情景：</p> <p>类A依赖于类B，同时类B也依赖于类A。这样就形成了循环依赖。</p> <p>为了解决这个问题，可以使用“@Lazy”注解，将类A或类B中的其中一个延迟加载。</p> <p>例如，我们可以在类A中使用@Lazy注解，将类A延迟加载，这样在启动应用程序时，Spring容器不会立即加载类A，而是在需要使用类A的时候才会进行加载。这样就避免了循环依赖的问题。</p> <p>示例代码如下：</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token annotation punctuation">@Component</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">A</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">B</span> b<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">A</span><span class="token punctuation">(</span><span class="token annotation punctuation">@Lazy</span> <span class="token class-name">B</span> b<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>b <span class="token operator">=</span> b<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">//...</span>
+<span class="token punctuation">}</span>
+
+<span class="token annotation punctuation">@Component</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">B</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">A</span> a<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">B</span><span class="token punctuation">(</span><span class="token class-name">A</span> a<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>a <span class="token operator">=</span> a<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">//...</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>在类A中，我们使用了@Lazy注解，将类B延迟加载。这样在启动应用程序时，Spring容器不会立即加载类B，而是在需要使用类B的时候才会进行加载。</p> <p>这样就避免了类A和类B之间的循环依赖问题。</p> <h2 id="接口隔离的案例"><a href="#接口隔离的案例" class="header-anchor">#</a> 接口隔离的案例</h2> <p>假设有两个类A和B，它们之间存在循环依赖：</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">A</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">B</span> b<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token class-name">A</span><span class="token punctuation">(</span><span class="token class-name">B</span> b<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>b <span class="token operator">=</span> b<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">B</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">A</span> a<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token class-name">B</span><span class="token punctuation">(</span><span class="token class-name">A</span> a<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>a <span class="token operator">=</span> a<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>这时候，如果直接在Spring Boot中注入A和B，就会出现循环依赖的问题。为了解决这个问题，可以使用接口隔离。</p> <p>首先，定义一个接口，包含A和B类中需要使用的方法：</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Service</span> <span class="token punctuation">{</span>
+    <span class="token keyword">void</span> <span class="token function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>然后，在A和B类中分别注入Service接口：</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">A</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">Service</span> service<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token class-name">A</span><span class="token punctuation">(</span><span class="token class-name">Service</span> service<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>service <span class="token operator">=</span> service<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">B</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">Service</span> service<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token class-name">B</span><span class="token punctuation">(</span><span class="token class-name">Service</span> service<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>service <span class="token operator">=</span> service<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>最后，在Spring Boot中注入Service实现类：</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token annotation punctuation">@Service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ServiceImpl</span> <span class="token keyword">implements</span> <span class="token class-name">Service</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">A</span> a<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">B</span> b<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token class-name">ServiceImpl</span><span class="token punctuation">(</span><span class="token class-name">A</span> a<span class="token punctuation">,</span> <span class="token class-name">B</span> b<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>a <span class="token operator">=</span> a<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>b <span class="token operator">=</span> b<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// ...</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>通过这种方式，A和B类不再直接依赖于彼此，而是依赖于同一个接口。同时，Spring Boot也能够正确地注入A、B和ServiceImpl，避免了循环依赖的问题。</p></div></div> <!----> <div class="page-edit"><!----> <!----> <!----></div> <div class="page-nav-wapper"><div class="page-nav-centre-wrap"><a href="/pages/96a6ab/" class="page-nav-centre page-nav-centre-prev"><div class="tooltip">读取 Springboot 的配置</div></a> <!----></div> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/pages/96a6ab/" class="prev">读取 Springboot 的配置</a></span> <!----></p></div></div></div> <div class="article-list"><div class="article-title"><a href="/archives/" class="iconfont icon-bi">最近更新</a></div> <div class="article-wrapper"><dl><dd>01</dd> <dt><a href="/pages/e875ad/"><div>
+            安装Rust
+            <!----></div></a> <span class="date">11-08</span></dt></dl><dl><dd>02</dd> <dt><a href="/pages/96a6ab/"><div>
+            读取 Springboot 的配置
+            <!----></div></a> <span class="date">11-08</span></dt></dl><dl><dd>03</dd> <dt><a href="/pages/04a5ad/"><div>
+            Mybatis最佳实践
+            <!----></div></a> <span class="date">11-08</span></dt></dl> <dl><dd></dd> <dt><a href="/archives/" class="more">更多文章&gt;</a></dt></dl></div></div></main></div> <div class="footer"><!----> 
+  Theme by
+  <a href="https://github.com/xugaoyi/vuepress-theme-vdoing" target="_blank" title="本站主题">Vdoing</a> <!----></div> <div class="buttons"><div title="返回顶部" class="button blur go-to-top iconfont icon-fanhuidingbu" style="display:none;"></div> <div title="去评论" class="button blur go-to-comment iconfont icon-pinglun" style="display:none;"></div> <div title="主题模式" class="button blur theme-mode-but iconfont icon-zhuti"><ul class="select-box" style="display:none;"><li class="iconfont icon-zidong">
+          跟随系统
+        </li><li class="iconfont icon-rijianmoshi">
+          浅色模式
+        </li><li class="iconfont icon-yejianmoshi">
+          深色模式
+        </li><li class="iconfont icon-yuedu">
+          阅读模式
+        </li></ul></div></div> <div class="body-bg" style="background:url() center center / cover no-repeat;opacity:0.5;"></div> <!----> <!----></div><div class="global-ui"><!----><div></div><canvas id="vuepress-canvas-cursor"></canvas></div></div>
+    <script src="/assets/js/app.971e7be9.js" defer></script><script src="/assets/js/2.f0b7de72.js" defer></script><script src="/assets/js/56.74a15729.js" defer></script>
+  </body>
+</html>
